@@ -1,0 +1,88 @@
+matrix_dashboard_panel <- function() {
+  tabPanel(
+    value = "matrix_dashboard",
+    "Matrix Dashboard",
+    gov_main_layout(
+      gov_row(
+        column(
+          width = 12,
+          tags$div(HTML('<h1 class="govuk-heading-l"> 16-18 English and maths progress by prior attainment matrix </h1>'))
+        ),
+        # input selection --------------------------------------------------
+        column(
+          width = 12,
+          gov_row(
+            column(
+              width = 6,
+              selectizeInput(
+                inputId = "dropdown_academicyr",
+                label = "Select an academic year:",
+                choices <- paste0(
+                  substr(sort(unique(raw_data$academic_year)), 1, 4),
+                  "/",
+                  substr(sort(unique(raw_data$academic_year)), 5, nchar(sort(unique(raw_data$academic_year))))
+                )
+              )
+            ),
+            column(
+              width = 6,
+              selectizeInput(
+                inputId = "dropdown_subject",
+                label = "Choose a subject:",
+                choices <- choices_subject
+              )
+            ),
+            column(
+              width = 6,
+              selectizeInput(
+                inputId = "dropdown_sex",
+                label = "Choose a sex:",
+                choices <- raw_data %>% select(sex) %>% distinct() %>% pull() %>% sort(.)
+              )
+            ),
+            column(
+              width = 6,
+              # checkboxInput(
+              # inputId = "select_colour",
+              # label = "Display table in colour?",
+              # value = TRUE
+              selectizeInput(
+                inputId = "select_colour",
+                label = "Display table in colour?",
+                choices <- choices_colour
+              )
+            )
+          ),
+          # data download --------------------------------------------------
+          column(
+            width = 12,
+            paste("Download the underlying data for this dashboard:"),
+            br(),
+            downloadButton(
+              outputId = "download_data",
+              label = "Download data",
+              icon = NULL,
+              class = "gov-uk-button-secondary"
+            )
+          ),
+        ),
+        # matrix table output --------------------------------------------------
+        column(
+          width = 12,
+          fluidRow(
+            column(
+              width = 12,
+              h3(textOutput("reactive_matrix_title_out")),
+              fluidRow(
+                column(
+                  width = 12,
+                  tableOutput("progress_table_out")
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+}
