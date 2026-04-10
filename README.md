@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-16-18 Ready Reckoner app
+English and maths progress matrix app
   <br>
 </h1>
 
