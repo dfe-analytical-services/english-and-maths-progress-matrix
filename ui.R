@@ -99,7 +99,7 @@ ui <- function(input, output, session) {
         "Accessibility",
         dfeshiny::a11y_panel(
           dashboard_title = "16-18 English and maths progress matrix",
-          dashboard_url = site_primary, ## <-------------------------------------------------- UPDATE
+          dashboard_url = site_primary,
           date_tested = "12th March 2026",
           date_prepared = "12th March 2026",
           date_reviewed = "12th March 2026",
@@ -127,7 +127,7 @@ ui <- function(input, output, session) {
         "Support and feedback",
         support_panel(
           team_email = "attainment.statistics@education.gov.uk",
-          repo_name = "https://github.com/dfe-analytical-services/shiny-template", ## <----------------------------- UPDATE
+          repo_name = "https://github.com/dfe-analytical-services/english-and-maths-progress-matrix",
           publication_name = "A level and other 16 to 18 results",
           # publication_slug = "a-level-and-other-16-to-18-results",
           form_url = "https://forms.office.com/e/Sa4ULADzx4"
