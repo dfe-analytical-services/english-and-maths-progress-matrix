@@ -6,7 +6,9 @@ matrix_dashboard_panel <- function() {
       gov_row(
         column(
           width = 12,
-          tags$div(HTML('<h1 class="govuk-heading-l"> 16-18 English and maths progress by prior attainment matrix </h1>'))
+          tags$div(HTML(
+            '<h1 class="govuk-heading-l"> 16-18 English and maths progress by prior attainment matrix </h1>'
+          ))
         ),
         # input selection --------------------------------------------------
         column(
@@ -20,7 +22,11 @@ matrix_dashboard_panel <- function() {
                 choices <- paste0(
                   substr(sort(unique(raw_data$academic_year)), 1, 4),
                   "/",
-                  substr(sort(unique(raw_data$academic_year)), 5, nchar(sort(unique(raw_data$academic_year))))
+                  substr(
+                    sort(unique(raw_data$academic_year)),
+                    5,
+                    nchar(sort(unique(raw_data$academic_year)))
+                  )
                 )
               )
             ),
@@ -37,7 +43,11 @@ matrix_dashboard_panel <- function() {
               selectizeInput(
                 inputId = "dropdown_sex",
                 label = "Choose a sex:",
-                choices <- raw_data %>% select(sex) %>% distinct() %>% pull() %>% sort(.)
+                choices <- raw_data %>%
+                  select(sex) %>%
+                  distinct() %>%
+                  pull() %>%
+                  sort(.)
               )
             ),
             column(

@@ -50,7 +50,7 @@ ui <- function(input, output, session) {
 
     # Load javascript dependencies --------------------------------------------
     shinyjs::useShinyjs(),
-
+    shinyGovstyle::full_width_overrides(),
     # Cookies -----------------------------------------------------------------
     # Setting up cookie consent based on a cookie recording the consent:
     dfeshiny::dfe_cookies_script(),
@@ -65,17 +65,11 @@ ui <- function(input, output, session) {
 
     # Google analytics --------------------------------------------------------
     tags$head(includeHTML(("google-analytics.html"))),
-    tags$head(
-      tags$link(
-        rel = "stylesheet",
-        type = "text/css",
-        href = "dfe_shiny_gov_style.css"
-      )
-    ),
 
     # Header ------------------------------------------------------------------
-    dfeshiny::header(
-      header = "16-18 English and maths progress matrix"
+    shinyGovstyle::header(
+      org_name = "Department for Education",
+      service_name = "16-18 English and maths progress matrix"
     ),
 
     # Beta banner -------------------------------------------------------------
@@ -127,7 +121,7 @@ ui <- function(input, output, session) {
         "Support and feedback",
         support_panel(
           team_email = "attainment.statistics@education.gov.uk",
-          repo_name = "https://github.com/dfe-analytical-services/shiny-template", ## <----------------------------- UPDATE
+          repo_name = "https://github.com/dfe-analytical-services/english-and-maths-progress-matrix", ## <----------------------------- UPDATE
           publication_name = "A level and other 16 to 18 results",
           # publication_slug = "a-level-and-other-16-to-18-results",
           form_url = "https://forms.office.com/e/Sa4ULADzx4"
