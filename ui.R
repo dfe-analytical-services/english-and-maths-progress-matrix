@@ -28,6 +28,13 @@ ui <- function(input, output, session) {
     use_shiny_title(),
     useShinyjs(),
     tags$html(lang = "en"),
+       tags$head(
+      tags$link(
+        rel = "stylesheet",
+        type = "text/css",
+        href = "gov_table_style.css"
+      )
+    ),
     # Add meta description for search engines
     meta() %>%
       meta_general(
@@ -135,9 +142,7 @@ ui <- function(input, output, session) {
       links = c(
         "Accessibility statement",
         "Use of cookies",
-        "Support and feedback",
-        "Privacy notice",
-        "External link"
+        "Support and feedback"
       )
     )
   )

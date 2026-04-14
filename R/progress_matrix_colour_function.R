@@ -356,6 +356,6 @@ progress_tab <- function(x, colourTable) {
       align = "c",
       format.args = list(big.mark = ",")
     ) %>%
-    kable_styling(bootstrap_options = c("striped", "hover"), full_width = F) %>%
+    kable_styling(bootstrap_options = c("hover"), full_width = F) %>%
     scroll_box(width = "100%")
 }
