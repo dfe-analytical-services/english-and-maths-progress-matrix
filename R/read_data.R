@@ -15,7 +15,9 @@
 
 # e&m timeseries data ----------------------------------------------------------------
 raw_data <- list.files(
-  path = "./data", pattern = "^EM_progress_",
-  full.names = TRUE, recursive = FALSE
+  path = "./data",
+  pattern = "^EM_progress_",
+  full.names = TRUE,
+  recursive = FALSE
 ) %>%
   map_df(~ read_csv(., show_col_types = FALSE))

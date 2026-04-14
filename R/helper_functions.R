@@ -7,9 +7,15 @@
 
 # Value box function ----------------------------------------------------------
 # fontsize: can be small, medium or large
-value_box <- function(value, subtitle, icon = NULL,
-                      color = "blue", width = 4,
-                      href = NULL, fontsize = "medium") {
+value_box <- function(
+  value,
+  subtitle,
+  icon = NULL,
+  color = "blue",
+  width = 4,
+  href = NULL,
+  fontsize = "medium"
+) {
   validate_color(color)
   if (!is.null(icon)) tagAssert(icon, type = "i")
 
@@ -43,8 +49,11 @@ validate_color <- function(color) {
   }
 
   stop(
-    "Invalid color: ", color, ". Valid colors are: ",
-    paste(valid_colors, collapse = ", "), "."
+    "Invalid color: ",
+    color,
+    ". Valid colors are: ",
+    paste(valid_colors, collapse = ", "),
+    "."
   )
 }
 
@@ -55,7 +64,11 @@ validate_color <- function(color) {
 # Note the advice on trying to keep to a maximum of 4 series in a single plot
 # AF colours package guidance here: https://best-practice-and-impact.github.io/afcolours/
 suppressMessages(
-  gss_colour_pallette <- afcolours::af_colours("categorical", colour_format = "hex", n = 4)
+  gss_colour_pallette <- afcolours::af_colours(
+    "categorical",
+    colour_format = "hex",
+    n = 4
+  )
 )
 
 #' Create a Tabset Panel with Optional Tabs
@@ -69,21 +82,24 @@ create_output_tabs <- function(
   table_output = NULL,
   download_output = NULL
 ) {
-  tabs <- Filter(Negate(is.null), list(
-    if (!is.null(chart_output)) tabPanel("Chart", chart_output),
-    if (!is.null(table_output)) {
-      tabPanel(
-        "Table",
-        div(style = "margin-top: 20px;", table_output)
-      )
-    },
-    if (!is.null(download_output)) {
-      tabPanel(
-        "Download",
-        div(style = "margin-top: 40px;", download_output)
-      )
-    }
-  ))
+  tabs <- Filter(
+    Negate(is.null),
+    list(
+      if (!is.null(chart_output)) tabPanel("Chart", chart_output),
+      if (!is.null(table_output)) {
+        tabPanel(
+          "Table",
+          div(style = "margin-top: 20px;", table_output)
+        )
+      },
+      if (!is.null(download_output)) {
+        tabPanel(
+          "Download",
+          div(style = "margin-top: 40px;", download_output)
+        )
+      }
+    )
+  )
 
   do.call(tabsetPanel, c(list(id = paste0("main_tabs_", id)), tabs))
 }

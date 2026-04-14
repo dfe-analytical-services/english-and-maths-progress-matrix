@@ -1,12 +1,16 @@
 matrix_dashboard_panel <- function() {
   tabPanel(
     value = "matrix_dashboard",
-    "Matrix Dashboard",
+    "Matrix dashboard",
     gov_main_layout(
       gov_row(
         column(
           width = 12,
-          tags$div(HTML('<h1 class="govuk-heading-l"> 16-18 English and maths progress by prior attainment matrix </h1>'))
+          heading_text(
+            "16-18 English and maths progress by prior attainment matrix",
+            size = "m",
+            level = 2
+          )
         ),
         # input selection --------------------------------------------------
         column(
@@ -20,7 +24,11 @@ matrix_dashboard_panel <- function() {
                 choices <- paste0(
                   substr(sort(unique(raw_data$academic_year)), 1, 4),
                   "/",
-                  substr(sort(unique(raw_data$academic_year)), 5, nchar(sort(unique(raw_data$academic_year))))
+                  substr(
+                    sort(unique(raw_data$academic_year)),
+                    5,
+                    nchar(sort(unique(raw_data$academic_year)))
+                  )
                 )
               )
             ),
@@ -37,7 +45,11 @@ matrix_dashboard_panel <- function() {
               selectizeInput(
                 inputId = "dropdown_sex",
                 label = "Choose a sex:",
-                choices <- raw_data %>% select(sex) %>% distinct() %>% pull() %>% sort(.)
+                choices <- raw_data %>%
+                  select(sex) %>%
+                  distinct() %>%
+                  pull() %>%
+                  sort(.)
               )
             ),
             column(
@@ -54,30 +66,29 @@ matrix_dashboard_panel <- function() {
             )
           ),
           # data download --------------------------------------------------
-          column(
-            width = 12,
-            paste("Download the underlying data for this dashboard:"),
-            br(),
-            downloadButton(
-              outputId = "download_data",
-              label = "Download data",
-              icon = NULL,
-              class = "gov-uk-button-secondary"
-            )
-          ),
-        ),
-        # matrix table output --------------------------------------------------
-        column(
-          width = 12,
-          fluidRow(
+          gov_row(
             column(
               width = 12,
-              h3(textOutput("reactive_matrix_title_out")),
-              fluidRow(
-                column(
-                  width = 12,
-                  tableOutput("progress_table_out")
-                )
+              paste("Download the underlying data for this dashboard:"),
+              br(),
+              downloadButton(
+                outputId = "download_data",
+                label = "Download data",
+                icon = NULL,
+                class = "gov-uk-button-secondary"
+              )
+            )
+          )
+        ),
+        # matrix table output --------------------------------------------------
+        gov_row(
+          column(
+            width = 12,
+            h2(textOutput("reactive_matrix_title_out")),
+            gov_row(
+              column(
+                width = 12,
+                tableOutput("progress_table_out")
               )
             )
           )

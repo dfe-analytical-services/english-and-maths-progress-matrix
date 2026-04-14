@@ -98,7 +98,7 @@ site_primary <- "https://department-for-education.shinyapps.io/english-and-maths
 sites_list <- c(site_primary)
 
 # Set the key for Google Analytics tracking
-google_analytics_key <- "" ## <--------------------------------------------------------------------------------- UPDATE
+google_analytics_key <- "S28X368HT7" ## <--------------------------------------------------------------------------------- UPDATE
 
 # End of global variables -----------------------------------------------------
 
