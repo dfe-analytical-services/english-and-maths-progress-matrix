@@ -90,7 +90,7 @@ em_quals_1618 <- "https://www.gov.uk/government/publications/16-to-18-english-an
 
 
 # Set the URLs that the site will be published to
-site_primary <- "https://department-for-education.shinyapps.io/dfe-shiny-template/"
+site_primary <- "https://department-for-education.shinyapps.io/english-and-maths-progress-matrix/"
 
 # Combine URLs into list for disconnect function
 # We can add further mirrors where necessary. Each one can generally handle
@@ -98,7 +98,7 @@ site_primary <- "https://department-for-education.shinyapps.io/dfe-shiny-templat
 sites_list <- c(site_primary)
 
 # Set the key for Google Analytics tracking
-google_analytics_key <- "" ## <--------------------------------------------------------------------------------- UPDATE
+google_analytics_key <- "S28X368HT7" ## <--------------------------------------------------------------------------------- UPDATE
 
 # End of global variables -----------------------------------------------------
 

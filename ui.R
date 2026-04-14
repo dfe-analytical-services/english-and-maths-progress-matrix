@@ -28,7 +28,7 @@ ui <- function(input, output, session) {
     use_shiny_title(),
     useShinyjs(),
     tags$html(lang = "en"),
-       tags$head(
+    tags$head(
       tags$link(
         rel = "stylesheet",
         type = "text/css",

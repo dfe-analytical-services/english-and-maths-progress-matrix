@@ -166,5 +166,4 @@ server <- function(input, output, session) {
   shiny::observeEvent(input$support_and_feedback, {
     shiny::updateTabsetPanel(session, "navlistPanel", selected = "support_panel_ui")
   })
-
 }

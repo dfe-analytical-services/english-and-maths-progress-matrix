@@ -65,30 +65,30 @@ matrix_dashboard_panel <- function() {
           ),
           # data download --------------------------------------------------
           gov_row(
-          column(
-            width = 12,
-            paste("Download the underlying data for this dashboard:"),
-            br(),
-            downloadButton(
-              outputId = "download_data",
-              label = "Download data",
-              icon = NULL,
-              class = "gov-uk-button-secondary"
-            )
-          )
-        )
-        ),
-        # matrix table output --------------------------------------------------
-          gov_row(
             column(
               width = 12,
-              h3(textOutput("reactive_matrix_title_out")),
-              gov_row(
-                column(
-                  width = 12,
-                  tableOutput("progress_table_out")
-                )
+              paste("Download the underlying data for this dashboard:"),
+              br(),
+              downloadButton(
+                outputId = "download_data",
+                label = "Download data",
+                icon = NULL,
+                class = "gov-uk-button-secondary"
               )
+            )
+          )
+        ),
+        # matrix table output --------------------------------------------------
+        gov_row(
+          column(
+            width = 12,
+            h3(textOutput("reactive_matrix_title_out")),
+            gov_row(
+              column(
+                width = 12,
+                tableOutput("progress_table_out")
+              )
+            )
           )
         )
       )
