@@ -2,6 +2,7 @@
   "input": {
     "CoF_em_quals": 0,
     "accessibility_statement": 0,
+    "accessibility_to_dashboard": 0,
     "cookies": {
 
     },
@@ -10,19 +11,19 @@
     "cookies_banner-cookies_reject": 0,
     "cookies_panel-cookies_analytics": "no",
     "cookies_panel-submit_btn": 0,
+    "cookies_statement": 0,
+    "cookies_to_dashboard": 0,
     "dropdown_academicyr": "2024/25",
     "dropdown_sex": "All",
     "dropdown_subject": "English",
     "em_quals_1618": 0,
-    "external_link": 0,
     "link_to_dashboard_tab": 0,
     "navlistPanel": "User guide",
-    "parent_publication": 0,
+    "pages": "dashboard",
     "parent_tech_guide": 0,
-    "privacy_notice": 0,
     "select_colour": "Progress",
-    "support_and_feedback": 0,
-    "use_of_cookies": 0
+    "support": 0,
+    "support_to_dashboard": 0
   },
   "output": {
 
