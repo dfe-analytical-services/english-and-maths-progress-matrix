@@ -8,17 +8,25 @@ library(tidyr)
 acad_year <- 202425
 indicator_file <- "[KS5_RESTRICTED].[Outputs].[PupilIndicators_POST16_202425A]"
 
-con <- DBI::dbConnect(odbc::odbc(),
+con <- DBI::dbConnect(
+  odbc::odbc(),
   driver = "SQL Server",
   server = "VMT1PR-DHSQL02"
 )
 
-EM_students <- tbl(con, sql(paste0("
+EM_students <- tbl(
+  con,
+  sql(paste0(
+    "
   select PUPILID,
          SEX,
          BASE_pts_E, BEST_E, BASE_pts_M, BEST_M, PROG_EXEMPT_E, PROG_EXEMPT_M--, NO_ENTRIES_E, NO_ENTRIES_M
-    from", indicator_file, "
-  where [TRIGGER]=1 and RECTYPE = 5 and COND in (1,2,3,4,5,6,7) and (PROG_EXEMPT_E is not null OR PROG_EXEMPT_M is not null)"))) %>%
+    from",
+    indicator_file,
+    "
+  where [TRIGGER]=1 and RECTYPE = 5 and COND in (1,2,3,4,5,6,7) and (PROG_EXEMPT_E is not null OR PROG_EXEMPT_M is not null)"
+  ))
+) %>%
   collect()
 
 dbDisconnect(con)
@@ -26,9 +34,12 @@ dbDisconnect(con)
 pivoted_data <- EM_students %>%
   pivot_longer(
     cols = c(
-      BASE_pts_E, BASE_pts_M,
-      BEST_E, BEST_M,
-      PROG_EXEMPT_E, PROG_EXEMPT_M
+      BASE_pts_E,
+      BASE_pts_M,
+      BEST_E,
+      BEST_M,
+      PROG_EXEMPT_E,
+      PROG_EXEMPT_M
     ),
     names_to = c(".value", "subject"),
     names_pattern = "(.*)_(E|M)"
@@ -103,14 +114,24 @@ skeleton_df <- tidyr::crossing(
 )
 
 all_data_complete <- all_data %>%
-  full_join(skeleton_df, by = c("academic_year" = "academic_year", "subject" = "subject", "sex" = "sex", "points_prior" = "points_prior", "points_1618" = "points_1618")) %>%
+  full_join(
+    skeleton_df,
+    by = c(
+      "academic_year" = "academic_year",
+      "subject" = "subject",
+      "sex" = "sex",
+      "points_prior" = "points_prior",
+      "points_1618" = "points_1618"
+    )
+  ) %>%
   mutate(
     student_count = case_when(
       is.na(student_count) ~ 0,
       TRUE ~ student_count
     ),
     progress_score = case_when(
-      is.na(progress_score) ~ as.numeric(points_1618) - as.numeric(points_prior),
+      is.na(progress_score) ~
+        as.numeric(points_1618) - as.numeric(points_prior),
       TRUE ~ progress_score
     )
   ) %>%
@@ -139,7 +160,11 @@ totals_1618 <- all_data_complete %>%
     academic_year = acad_year
   )
 
-all_data_complete_with_totals <- rbind(all_data_complete, totals_prior, totals_1618) %>%
+all_data_complete_with_totals <- rbind(
+  all_data_complete,
+  totals_prior,
+  totals_1618
+) %>%
   mutate(
     id_col_prior = paste0(academic_year, subject, sex, points_prior),
     id_col_1618 = paste0(academic_year, subject, sex, points_1618)
@@ -237,13 +262,17 @@ all_data_suppressed <- all_data_complete_with_totals_supp_prep %>%
   ) %>%
   mutate(
     student_count = case_when(
-      id_col_prior %in% groups_to_suppress_prior$id_col & points_1618 != "All" ~ "c",
-      id_col_1618 %in% groups_to_suppress_1618$id_col & points_prior != "All" ~ "c",
+      id_col_prior %in% groups_to_suppress_prior$id_col & points_1618 != "All" ~
+        "c",
+      id_col_1618 %in% groups_to_suppress_1618$id_col & points_prior != "All" ~
+        "c",
       TRUE ~ as.character(student_count)
     ),
     progress_score = case_when(
-      id_col_prior %in% groups_to_suppress_prior$id_col & points_1618 != "All" ~ "c",
-      id_col_1618 %in% groups_to_suppress_1618$id_col & points_prior != "All" ~ "c",
+      id_col_prior %in% groups_to_suppress_prior$id_col & points_1618 != "All" ~
+        "c",
+      id_col_1618 %in% groups_to_suppress_1618$id_col & points_prior != "All" ~
+        "c",
       TRUE ~ as.character(progress_score)
     )
   ) %>%
@@ -267,7 +296,8 @@ all_data_complete %>%
 ## Should be 0 rows.
 all_data_suppressed %>%
   filter(
-    (student_count == "c" & progress_score != "c") | (student_count != "c" & progress_score == "c")
+    (student_count == "c" & progress_score != "c") |
+      (student_count != "c" & progress_score == "c")
   )
 
 # 2024/25A - 0 rows
@@ -278,8 +308,14 @@ func_qa_matching_totals <- function(data, points_major, points_minor) {
     filter(sex == "All", {{ points_major }} != "All") %>%
     group_by({{ points_major }}) %>%
     summarise(
-      total_students = sum(if_else({{ points_minor }} != "All", as.numeric(student_count), 0), na.rm = TRUE),
-      all_row_students = sum(if_else({{ points_minor }} == "All", as.numeric(student_count), 0), na.rm = TRUE),
+      total_students = sum(
+        if_else({{ points_minor }} != "All", as.numeric(student_count), 0),
+        na.rm = TRUE
+      ),
+      all_row_students = sum(
+        if_else({{ points_minor }} == "All", as.numeric(student_count), 0),
+        na.rm = TRUE
+      ),
       diff = total_students - all_row_students,
       .groups = "drop"
     )
@@ -304,7 +340,10 @@ all_data_complete_with_totals %>%
   rename(pre_student_count = student_count) %>%
   left_join(
     all_data_suppressed %>% select(-progress_score),
-    by = setdiff(colnames(all_data_suppressed), c("student_count", "progress_score"))
+    by = setdiff(
+      colnames(all_data_suppressed),
+      c("student_count", "progress_score")
+    )
   ) %>%
   rename(post_student_count = student_count) %>%
   mutate(
@@ -312,7 +351,8 @@ all_data_complete_with_totals %>%
     id_col_1618 = paste0(academic_year, subject, sex, points_1618)
   ) %>%
   filter(
-    !(id_col_prior %in% to_remove_priors$id_col_prior |
+    !(id_col_prior %in%
+      to_remove_priors$id_col_prior |
       id_col_prior %in% to_remove_priors$id_col_prior_rem |
       id_col_1618 %in% to_remove_1618$id_col_1618 |
       id_col_1618 %in% to_remove_1618$id_col_1618_rem)
@@ -329,10 +369,12 @@ all_data_suppressed %>%
   summarise(supp_group_count = n()) %>%
   mutate(id_col_prior = paste0(academic_year, subject, sex, points_prior)) %>%
   filter(supp_group_count > 1) %>%
-  mutate(expected_supp_group_count = case_when(
-    id_col_prior %in% groups_to_suppress_prior$id_col ~ 16,
-    TRUE ~ NA
-  )) %>%
+  mutate(
+    expected_supp_group_count = case_when(
+      id_col_prior %in% groups_to_suppress_prior$id_col ~ 16,
+      TRUE ~ NA
+    )
+  ) %>%
   select(-id_col_prior)
 
 # 2024/25A - 4 rows suppressed (Matches groups_to_suppress_prior). Each have 16 suppression instances.
@@ -344,14 +386,19 @@ all_data_suppressed %>%
   summarise(supp_group_count = n()) %>%
   mutate(id_col_1618 = paste0(academic_year, subject, sex, points_1618)) %>%
   filter(supp_group_count > 1) %>%
-  mutate(expected_supp_group_count = case_when(
-    id_col_1618 %in% groups_to_suppress_1618$id_col ~ 10,
-    TRUE ~ NA
-  )) %>%
+  mutate(
+    expected_supp_group_count = case_when(
+      id_col_1618 %in% groups_to_suppress_1618$id_col ~ 10,
+      TRUE ~ NA
+    )
+  ) %>%
   select(-id_col_1618)
 
 # 2024/25A - 2 columns suppressed (Matches groups_to_suppress_1618). Each have 10 suppression instances.
 
 #############################################################################
 
-write_csv(all_data_suppressed, file = paste0("./data/EM_progress_", acad_year, ".csv"))
+write_csv(
+  all_data_suppressed,
+  file = paste0("./data/EM_progress_", acad_year, ".csv")
+)

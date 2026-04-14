@@ -24,14 +24,21 @@ server <- function(input, output, session) {
   # any entries in your own dashboard's bookmarking url that you don't want
   # including.
   setBookmarkExclude(c(
-    "cookies", "link_to_app_content_tab",
-    "tabBenchmark_rows_current", "tabBenchmark_rows_all",
-    "tabBenchmark_columns_selected", "tabBenchmark_cell_clicked",
-    "tabBenchmark_cells_selected", "tabBenchmark_search",
-    "tabBenchmark_rows_selected", "tabBenchmark_row_last_clicked",
+    "cookies",
+    "link_to_app_content_tab",
+    "tabBenchmark_rows_current",
+    "tabBenchmark_rows_all",
+    "tabBenchmark_columns_selected",
+    "tabBenchmark_cell_clicked",
+    "tabBenchmark_cells_selected",
+    "tabBenchmark_search",
+    "tabBenchmark_rows_selected",
+    "tabBenchmark_row_last_clicked",
     "tabBenchmark_state",
     "plotly_relayout-A",
-    "plotly_click-A", "plotly_hover-A", "plotly_afterplot-A",
+    "plotly_click-A",
+    "plotly_hover-A",
+    "plotly_afterplot-A",
     ".clientValue-default-plotlyCrosstalkOpts"
   ))
 
@@ -50,9 +57,12 @@ server <- function(input, output, session) {
       change_window_title(
         session,
         paste0(
-          site_title, " - ",
-          input$choicesAcYr, ", ",
-          input$choicesSubject, ", ",
+          site_title,
+          " - ",
+          input$choicesAcYr,
+          ", ",
+          input$choicesSubject,
+          ", ",
           input$choicesSex
         )
       )
@@ -60,7 +70,8 @@ server <- function(input, output, session) {
       change_window_title(
         session,
         paste0(
-          site_title, " - ",
+          site_title,
+          " - ",
           input$navlistPanel
         )
       )
@@ -79,19 +90,20 @@ server <- function(input, output, session) {
     google_analytics_key = google_analytics_key
   )
 
-
   # FOR THE APP ---------------------------------------------------------------
   observeEvent(input$link_to_dashboard_tab, {
     updateTabsetPanel(session, "navlistPanel", selected = "matrix_dashboard")
   })
 
-
   # reactive progress table data ----------------------------------------------
   reactive_progress_data <- reactive({
     raw_data %>%
-      filter(sex == input$dropdown_sex & academic_year == gsub("/", "", input$dropdown_academicyr) & subject == input$dropdown_subject)
+      filter(
+        sex == input$dropdown_sex &
+          academic_year == gsub("/", "", input$dropdown_academicyr) &
+          subject == input$dropdown_subject
+      )
   })
-
 
   progress_table <- reactive({
     progress_tab(reactive_progress_data(), input$select_colour)
@@ -101,12 +113,14 @@ server <- function(input, output, session) {
     progress_table()
   })
 
-
   ## reactive matrix table title ----------------------------------------------
   reactive_matrix_title <- reactive({
     paste0(
-      "Matrix of prior attainment and progress point scores in ", input$dropdown_subject,
-      " by students at the end of 16-18 studies in ", input$dropdown_academicyr, "."
+      "Matrix of prior attainment and progress point scores in ",
+      input$dropdown_subject,
+      " by students at the end of 16-18 studies in ",
+      input$dropdown_academicyr,
+      "."
     )
   })
 
@@ -114,11 +128,9 @@ server <- function(input, output, session) {
     reactive_matrix_title()
   })
 
-
   observeEvent(input$go, {
     toggle(id = "div_a", anim = T)
   })
-
 
   # link in the user guide panel back to the main panel -----------------------
   observeEvent(input$link_to_app_content_tab, {
@@ -134,7 +146,12 @@ server <- function(input, output, session) {
   )
 
   # Wrap a plot with a larger spinner
-  with_gov_spinner <- function(ui_element, spinner_type = 6, size = 1, color = "#1d70b8") {
+  with_gov_spinner <- function(
+    ui_element,
+    spinner_type = 6,
+    size = 1,
+    color = "#1d70b8"
+  ) {
     shinycssloaders::withSpinner(
       ui_element,
       type = spinner_type,
@@ -154,16 +171,24 @@ server <- function(input, output, session) {
     paste0("Current selections: ", input$selectPhase, ", ", input$selectArea)
   })
 
-  # footer links -----------------------
-  shiny::observeEvent(input$accessibility_statement, {
-    shiny::updateTabsetPanel(session, "navlistPanel", selected = "a11y_panel")
-  })
+  ## Footer links -------------------------------------------------------------
+  observeEvent(input$dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$support, nav_select("pages", "support"))
+  observeEvent(
+    input$accessibility_statement,
+    nav_select("pages", "accessibility_statement")
+  )
+  observeEvent(
+    input$cookies_statement,
+    nav_select("pages", "cookies_statement")
+  )
 
-  shiny::observeEvent(input$use_of_cookies, {
-    shiny::updateTabsetPanel(session, "navlistPanel", selected = "cookies_panel_ui")
-  })
-
-  shiny::observeEvent(input$support_and_feedback, {
-    shiny::updateTabsetPanel(session, "navlistPanel", selected = "support_panel_ui")
-  })
+  ## Back links to main dashboard ---------------------------------------------
+  observeEvent(input$footnotes_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$support_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(input$cookies_to_dashboard, nav_select("pages", "dashboard"))
+  observeEvent(
+    input$accessibility_to_dashboard,
+    nav_select("pages", "dashboard")
+  )
 }

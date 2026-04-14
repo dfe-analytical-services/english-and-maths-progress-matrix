@@ -1,14 +1,16 @@
 matrix_dashboard_panel <- function() {
   tabPanel(
     value = "matrix_dashboard",
-    "Matrix Dashboard",
+    "Matrix dashboard",
     gov_main_layout(
       gov_row(
         column(
           width = 12,
-          tags$div(HTML(
-            '<h1 class="govuk-heading-l"> 16-18 English and maths progress by prior attainment matrix </h1>'
-          ))
+          heading_text(
+            "16-18 English and maths progress by prior attainment matrix",
+            size = "m",
+            level = 2
+          )
         ),
         # input selection --------------------------------------------------
         column(
@@ -82,7 +84,7 @@ matrix_dashboard_panel <- function() {
         gov_row(
           column(
             width = 12,
-            h3(textOutput("reactive_matrix_title_out")),
+            h2(textOutput("reactive_matrix_title_out")),
             gov_row(
               column(
                 width = 12,
