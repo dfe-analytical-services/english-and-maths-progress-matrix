@@ -18,7 +18,7 @@ matrix_dashboard_panel <- function() {
           layout_columns(
             selectizeInput(
               inputId = "dropdown_academicyr",
-              label = "Academic year:",
+              label = "Academic year",
               choices <- paste0(
                 substr(sort(unique(raw_data$academic_year)), 1, 4),
                 "/",
@@ -31,12 +31,12 @@ matrix_dashboard_panel <- function() {
             ),
             selectizeInput(
               inputId = "dropdown_subject",
-              label = "Subject:",
+              label = "Subject",
               choices <- choices_subject
             ),
             selectizeInput(
               inputId = "dropdown_sex",
-              label = "Sex:",
+              label = "Sex",
               choices <- raw_data %>%
                 select(sex) %>%
                 distinct() %>%
@@ -49,7 +49,7 @@ matrix_dashboard_panel <- function() {
             # value = TRUE
             selectizeInput(
               inputId = "select_colour",
-              label = "Display in colour?",
+              label = "Highlighting style",
               choices <- choices_colour
             )
           )
