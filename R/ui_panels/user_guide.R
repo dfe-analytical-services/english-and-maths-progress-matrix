@@ -41,7 +41,7 @@ user_guide_panel <- function() {
             ),
             gov_text(
               "The data in this app are subject to suppression. Where data for a given prior or 16-18 attainment group have been suppressed,
-                    the total number of students for that is still shown. Prior and 16-18 attainment totals have been adjusted to match the sum of the unsuppressed cells."
+                    the total number of students for that group is still shown. Prior and 16-18 attainment totals have been adjusted to match the sum of the unsuppressed cells."
             ),
             gov_text(
               "To begin using the app please navigate to the ",
