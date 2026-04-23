@@ -56,6 +56,7 @@ shhh(library(shinyalert))
 if (FALSE) {
   shhh(library(shinytest2))
   shhh(library(chromote))
+  shhh(library(rsconnect))
   shhh(library(testthat))
   shhh(library(devtools))
   shhh(library(shinya11y))
