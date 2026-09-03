@@ -23,7 +23,7 @@ ui <- function(input, output, session) {
   bslib::page_fluid(
     # shinya11y::use_tota11y(),
     # Set application metadata ------------------------------------------------
-    tags$head(HTML("<title>16-18 English and maths progress matrix</title>")),
+    tags$head(HTML("<title>16-19 English and maths progress matrix</title>")),
     tags$head(tags$link(rel = "shortcut icon", href = "dfefavicon.png")),
     use_shiny_title(),
     useShinyjs(),
@@ -38,8 +38,8 @@ ui <- function(input, output, session) {
     # Add meta description for search engines
     meta() %>%
       meta_general(
-        application_name = "16-18 English and maths progress matrix",
-        description = "16-18 English and maths progress matrix",
+        application_name = "16-19 English and maths progress matrix",
+        description = "16-19 English and maths progress matrix",
         robots = "index,follow",
         generator = "R-Shiny",
         subject = "stats development",
@@ -62,7 +62,7 @@ ui <- function(input, output, session) {
     # Setting up cookie consent based on a cookie recording the consent:
     dfeshiny::dfe_cookies_script(),
     dfeshiny::cookies_banner_ui(
-      name = "16-18 English and maths progress matrix"
+      name = "16-19 English and maths progress matrix"
     ),
 
     # Skip_to_main -------------------------------------------------------------
@@ -76,7 +76,7 @@ ui <- function(input, output, session) {
     # Header ------------------------------------------------------------------
     shinyGovstyle::header(
       org_name = "Department for Education",
-      service_name = "16-18 English and maths progress matrix"
+      service_name = "16-19 English and maths progress matrix"
     ),
 
     # Beta banner -------------------------------------------------------------
@@ -116,7 +116,7 @@ ui <- function(input, output, session) {
               "Back to dashboard"
             ),
             dfeshiny::a11y_panel(
-              dashboard_title = "16-18 English and maths progress matrix",
+              dashboard_title = "16-19 English and maths progress matrix",
               dashboard_url = site_primary, ## <-------------------------------------------------- UPDATE
               date_tested = "14th April 2026",
               date_prepared = "14th April 2026",
