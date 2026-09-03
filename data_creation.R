@@ -6,27 +6,16 @@ library(readr)
 library(tidyr)
 
 acad_year <- 202425
-indicator_file <- "[KS5_RESTRICTED].[Outputs].[PupilIndicators_POST16_202425A]"
+indicator_file <- "catalog_40_copper_proj_ks5_restricted.Outputs.PupilIndicators_POST16_202425A"
 
 con <- DBI::dbConnect(
-  odbc::odbc(),
-  driver = "SQL Server",
-  server = "VMT1PR-DHSQL02"
+  odbc::databricks(),
+  driver = "Databricks ODBC Driver",
+  httpPath = Sys.getenv("DATABRICKS_SQL_PATH"),
+  useNativeQuery = FALSE
 )
 
-EM_students <- tbl(
-  con,
-  sql(paste0(
-    "
-  select PUPILID,
-         SEX,
-         BASE_pts_E, BEST_E, BASE_pts_M, BEST_M, PROG_EXEMPT_E, PROG_EXEMPT_M--, NO_ENTRIES_E, NO_ENTRIES_M
-    from",
-    indicator_file,
-    "
-  where [TRIGGER]=1 and RECTYPE = 5 and COND in (1,2,3,4,5,6,7) and (PROG_EXEMPT_E is not null OR PROG_EXEMPT_M is not null)"
-  ))
-) %>%
+EM_students <- tbl(con, sql(paste0("select PUPILID, Sex, BASE_pts_E, BEST_E, BASE_pts_M, BEST_M, PROG_EXEMPT_E, PROG_EXEMPT_M from ", indicator_file, " where `TRIGGER`=1 and RECTYPE = 5 and COND in (1,2,3,4,5,6,7) and (PROG_EXEMPT_E is not null OR PROG_EXEMPT_M is not null)"))) %>%
   collect()
 
 dbDisconnect(con)
@@ -47,22 +36,22 @@ pivoted_data <- EM_students %>%
   filter(!is.na(PROG_EXEMPT))
 
 sex_data <- pivoted_data %>%
-  group_by(SEX, subject, BASE_pts, BEST, PROG_EXEMPT) %>%
+  group_by(Sex, subject, BASE_pts, BEST, PROG_EXEMPT) %>%
   summarise(student_count = n(), .groups = "drop") %>%
-  filter(SEX %in% c("F", "M"))
+  filter(Sex %in% c("F", "M"))
 
 total_data <- pivoted_data %>%
   group_by(subject, BASE_pts, BEST, PROG_EXEMPT) %>%
   summarise(student_count = n(), .groups = "drop") %>%
-  mutate(SEX = "All")
+  mutate(Sex = "All")
 
 all_data <- bind_rows(sex_data, total_data) %>%
   mutate(
     academic_year = acad_year,
-    SEX = case_when(
-      SEX == "F" ~ "Female",
-      SEX == "M" ~ "Male",
-      TRUE ~ SEX
+    Sex = case_when(
+      Sex == "F" ~ "Female",
+      Sex == "M" ~ "Male",
+      TRUE ~ Sex
     ),
     subject = case_when(
       subject == "E" ~ "English",
