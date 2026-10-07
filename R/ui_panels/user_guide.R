@@ -6,7 +6,7 @@ user_guide_panel <- function() {
         column(
           12,
           heading_text(
-            "16-18 English and maths progress by prior attainment matrix",
+            "16-19 English and maths progress by prior attainment matrix",
             size = "l",
             level = 1
           )
@@ -24,24 +24,24 @@ user_guide_panel <- function() {
           bslib::card_body(
             heading_text("Introduction", size = "s", level = 3),
             gov_text(
-              "Welcome to the 16-18 English and maths progress matrix app."
+              "Welcome to the 16-19 English and maths progress matrix app."
             ),
             gov_text(
-              "The 16-18 English and maths progress matrix is a tool that can be used to
-            visualise the breakdown of KS4 average prior attainment and 16-18 attainment in English or maths
-            for students in scope for the 16-18 English and maths progress measure."
+              "The 16-19 English and maths progress matrix is a tool that can be used to
+            visualise the breakdown of KS4 average prior attainment and 16-19 attainment in English or maths
+            for students in scope for the 16-19 English and maths progress measure."
             ),
             gov_text(
               "Within the Matrix Dashboard, a choice of academic year, subject, and sex can be selected and the
             built in chart will be updated to reflect the users choices.
             The chart can be displayed with or without colour highlighting. The colour option can be helpful
             to identify different groups of students based on the selected option. Cells can be coloured corresponding to the progress
-            students' make during the 16-18 phase: positive (green), negative (red), remaining at the same level (yellow). Cells can also
-            be coloured by whether or not a grade 4 or above was achieved by the end of the 16-18 phase."
+            students' make during the 16-19 phase: positive (green), negative (red), remaining at the same level (yellow). Cells can also
+            be coloured by whether or not a grade 4 or above was achieved by the end of the 16-19 phase."
             ),
             gov_text(
-              "The data in this app are subject to suppression. Where data for a given prior or 16-18 attainment group have been suppressed,
-                    the total number of students for that group is still shown. Prior and 16-18 attainment totals have been adjusted to match the sum of the unsuppressed cells."
+              "The data in this app are subject to suppression. Where data for a given prior or 16-19 attainment group have been suppressed,
+                    the total number of students for that group is still shown. Prior and 16-19 attainment totals have been adjusted to match the sum of the unsuppressed cells."
             ),
             gov_text(
               "To begin using the app please navigate to the ",
@@ -85,10 +85,10 @@ user_guide_panel <- function() {
               )
             ),
             gov_text(
-              "Additional information about the 16-18 English and maths progress measure can be found in the ",
+              "Additional information about the 16-19 English and maths progress measure can be found in the ",
               actionLink(
                 "parent_tech_guide",
-                "16 to 18 accountability measures technical guidance."
+                "16-19 accountability measures technical guidance."
               )
             )
           )

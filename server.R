@@ -118,15 +118,23 @@ server <- function(input, output, session) {
     paste0(
       "Matrix of prior attainment and progress point scores in ",
       input$dropdown_subject,
-      " by students at the end of 16-18 studies in ",
+      " by students at the end of 16-19 study in ",
       input$dropdown_academicyr,
       "."
     )
   })
 
-  output$reactive_matrix_title_out <- renderText({
-    reactive_matrix_title()
+  output$reactive_matrix_title <- renderUI({
+    heading_text(
+      reactive_matrix_title(),
+      size = "m",
+      level = 2
+    )
   })
+
+  # output$reactive_matrix_title_out <- renderText({
+  #   reactive_matrix_title()
+  # })
 
   observeEvent(input$go, {
     toggle(id = "div_a", anim = T)
