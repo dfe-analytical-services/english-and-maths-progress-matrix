@@ -63,7 +63,7 @@ user_guide_panel <- function() {
             heading_text("Statistical Release", size = "s", level = 3),
             gov_text(
               "A full breakdown of national English and maths progress measures can be found in the ",
-              external_link(parent_publication, "parent_publication"),
+              external_link(parent_publication, "16 to 19 performance"),
               " statistical release."
             ),
             # gov_text("English and maths progress measures were temporarily paused from 2021/22 to 2023/24 due to alternative
@@ -71,24 +71,24 @@ user_guide_panel <- function() {
             #   qualifications awarded between January 2020 and August 2021."),
             heading_text("Guidance sources", size = "s", level = 3),
             gov_text(
-              actionLink(
-                "CoF_em_quals",
+              external_link(
+                CoF_em_quals,
                 "Guidance on the maths and English Condition of Funding"
               ),
               " sets out the full list of qualification types equivalent to GCSE grade 9-4 for the purpose of prior attainment."
             ),
             gov_text(
               "A comprehensive list of points to be used in performance measures can be found here: ",
-              actionLink(
-                "em_quals_1618",
-                "English and maths progress measure qualifications."
+              external_link(
+                em_quals_1618,
+                "English and maths progress measure qualifications"
               )
             ),
             gov_text(
               "Additional information about the 16-19 English and maths progress measure can be found in the ",
-              actionLink(
-                "parent_tech_guide",
-                "16-19 accountability measures technical guidance."
+              external_link(
+                parent_tech_guide,
+                "16-19 accountability measures technical guidance"
               )
             )
           )
