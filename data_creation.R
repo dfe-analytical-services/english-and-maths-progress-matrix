@@ -5,8 +5,8 @@ library(dbplyr)
 library(readr)
 library(tidyr)
 
-acad_year <- 202425
-indicator_file <- "catalog_40_copper_proj_ks5_restricted.Outputs.PupilIndicators_POST16_202425A"
+acad_year <- 202526
+indicator_file <- "catalog_40_copper_proj_ks5_restricted.Outputs.PupilIndicators_POST16_202526U"
 
 con <- DBI::dbConnect(
   odbc::databricks(),
@@ -196,7 +196,7 @@ groups_to_suppress_1618 <- all_data_complete %>%
 to_remove_priors <- all_data_complete_with_totals %>%
   filter(
     (id_col_prior %in% groups_to_suppress_prior$id_col),
-    student_count != 0,
+    # student_count != 0,
     points_1618 != "All"
   ) %>%
   mutate(id_col_prior_rem = paste0(academic_year, subject, sex, "All")) %>%
@@ -210,7 +210,7 @@ to_remove_priors <- all_data_complete_with_totals %>%
 to_remove_1618 <- all_data_complete_with_totals %>%
   filter(
     (id_col_1618 %in% groups_to_suppress_1618$id_col),
-    student_count != 0,
+    # student_count != 0,
     points_prior != "All"
   ) %>%
   mutate(id_col_1618_rem = paste0(academic_year, subject, sex, "All")) %>%
@@ -279,7 +279,8 @@ all_data_complete %>%
   group_by(subject) %>%
   summarise(number_of_students = sum(student_count))
 
-# 2024/25A - English 88,043. Maths 124,669. Matches
+# 2024/25F - English 88,017. Maths 124,654. Matches
+# 2025/26U - English 111,824. Maths 141,095. Matches
 
 ## Where student_count is suppressed, progress_score should be too. Vice versa.
 ## Should be 0 rows.
@@ -289,16 +290,21 @@ all_data_suppressed %>%
       (student_count != "c" & progress_score == "c")
   )
 
-# 2024/25A - 0 rows
+# 2024/25F - 0 rows
+# 2025/26U - 0 rows
 
 ## Want to ensure row/column totals sum to displayed row/column total to ensure suppression cannot be unpicked.
-func_qa_matching_totals <- function(data, points_major, points_minor) {
+func_qa_matching_totals <- function(data, subj, points_major, points_minor) {
   data %>%
-    filter(sex == "All", {{ points_major }} != "All") %>%
+    filter(sex == "All", {{ points_major }} != "All", subject == subj) %>%
     group_by({{ points_major }}) %>%
     summarise(
       total_students = sum(
         if_else({{ points_minor }} != "All", as.numeric(student_count), 0),
+        na.rm = TRUE
+      ),
+      supp_flag = any(
+        {{ points_minor }} != "All" & student_count == "c",
         na.rm = TRUE
       ),
       all_row_students = sum(
@@ -311,10 +317,15 @@ func_qa_matching_totals <- function(data, points_major, points_minor) {
 }
 
 ## Diff column should be 0.
-func_qa_matching_totals(all_data_suppressed, points_prior, points_1618)
-func_qa_matching_totals(all_data_suppressed, points_1618, points_prior)
+## If suppression has been applied to the All sex group, difference expected but allowed. Check supp_flag.
+func_qa_matching_totals(all_data_suppressed, "English", points_prior, points_1618)
+func_qa_matching_totals(all_data_suppressed, "English", points_1618, points_prior)
 
-# 2024/25A - All diffs=0
+func_qa_matching_totals(all_data_suppressed, "Maths", points_prior, points_1618)
+func_qa_matching_totals(all_data_suppressed, "Maths", points_1618, points_prior)
+
+# 2024/25F - All diffs=0
+# 2025/26U - 1 diff in English/points_prior/points_1618. Supp applied to all group.
 
 ## Find rows that have been altered by suppression.
 ## Are these expected? Cross check using previously generated "to_remove_" id cols.
@@ -340,14 +351,14 @@ all_data_complete_with_totals %>%
     id_col_1618 = paste0(academic_year, subject, sex, points_1618)
   ) %>%
   filter(
-    !(id_col_prior %in%
-      to_remove_priors$id_col_prior |
+    !(id_col_prior %in% to_remove_priors$id_col_prior |
       id_col_prior %in% to_remove_priors$id_col_prior_rem |
       id_col_1618 %in% to_remove_1618$id_col_1618 |
       id_col_1618 %in% to_remove_1618$id_col_1618_rem)
   )
 
-# 2024/25A - 0 rows
+# 2024/25F - 0 rows
+# 2025/26U - 0 rows
 
 ## Check number of suppressed items for each prior/1618 grouping.
 
@@ -366,7 +377,8 @@ all_data_suppressed %>%
   ) %>%
   select(-id_col_prior)
 
-# 2024/25A - 4 rows suppressed (Matches groups_to_suppress_prior). Each have 16 suppression instances.
+# 2024/25F - 4 rows suppressed (Matches groups_to_suppress_prior). Each have 16 suppression instances.
+# 2025/26U - 3 rows suppressed (Matches groups_to_suppress_prior). Each have 16 suppression instances.
 
 ## Where a 1618 column is suppressed, expect 10 instances of suppression.
 all_data_suppressed %>%
@@ -383,7 +395,8 @@ all_data_suppressed %>%
   ) %>%
   select(-id_col_1618)
 
-# 2024/25A - 2 columns suppressed (Matches groups_to_suppress_1618). Each have 10 suppression instances.
+# 2024/25F - 2 columns suppressed (Matches groups_to_suppress_1618). Each have 10 suppression instances.
+# 2025/26U - 2 columns suppressed (Matches groups_to_suppress_1618). Each have 10 suppression instances.
 
 #############################################################################
 

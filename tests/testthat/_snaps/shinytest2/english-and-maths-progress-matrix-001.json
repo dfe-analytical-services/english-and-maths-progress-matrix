@@ -1,6 +1,5 @@
 {
   "input": {
-    "CoF_em_quals": 0,
     "accessibility_statement": 0,
     "accessibility_to_dashboard": 0,
     "cookies": {
@@ -13,14 +12,12 @@
     "cookies_panel-submit_btn": 0,
     "cookies_statement": 0,
     "cookies_to_dashboard": 0,
-    "dropdown_academicyr": "2024/25",
+    "dropdown_academicyr": "2025/26",
     "dropdown_sex": "All",
     "dropdown_subject": "English",
-    "em_quals_1618": 0,
     "link_to_dashboard_tab": 0,
     "navlistPanel": "User guide",
     "pages": "dashboard",
-    "parent_tech_guide": 0,
     "select_colour": "Progress",
     "support": 0,
     "support_to_dashboard": 0

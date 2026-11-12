@@ -83,8 +83,8 @@ lapply(list.files("R/ui_panels/", full.names = TRUE), source)
 # Set global variables --------------------------------------------------------
 
 site_title <- "English and Maths Progress Matrix" # name of app
-parent_pub_name <- "A level and other 16 to 18 results" # name of source publication
-parent_publication <- "https://explore-education-statistics.service.gov.uk/find-statistics/a-level-and-other-16-to-18-results" # link to source publication
+parent_pub_name <- "16 to 19 performance" # name of source publication
+parent_publication <- "https://explore-education-statistics.service.gov.uk/find-statistics/16-to-19-performance" # link to source publication
 parent_tech_guide <- "https://www.gov.uk/government/publications/16-to-19-accountability-headline-measures-technical-guide"
 CoF_em_quals <- "https://www.gov.uk/government/publications/16-to-19-funding-maths-and-english-condition-of-funding"
 em_quals_1618 <- "https://www.gov.uk/government/publications/16-to-18-english-and-maths-progress-measure-qualifications"

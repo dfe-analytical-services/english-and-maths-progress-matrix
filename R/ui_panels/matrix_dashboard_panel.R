@@ -29,12 +29,18 @@ matrix_dashboard_panel <- function() {
                       5,
                       nchar(sort(unique(raw_data$academic_year)))
                     )
+                  ),
+                  selected = paste0(
+                    substr(max(raw_data$academic_year, na.rm = TRUE), 1, 4),
+                    "/",
+                    substr(max(raw_data$academic_year, na.rm = TRUE), 5, 8)
                   )
                 ),
                 selectizeInput(
                   inputId = "dropdown_subject",
                   label = "Subject",
-                  choices <- choices_subject
+                  choices <- choices_subject,
+                  selected = "English"
                 ),
                 selectizeInput(
                   inputId = "dropdown_sex",
@@ -43,12 +49,14 @@ matrix_dashboard_panel <- function() {
                     select(sex) %>%
                     distinct() %>%
                     pull() %>%
-                    sort(.)
+                    sort(.),
+                  selected = "All"
                 ),
                 selectizeInput(
                   inputId = "select_colour",
                   label = "Highlighting style",
-                  choices <- choices_colour
+                  choices <- choices_colour,
+                  selected = "Progress"
                 )
               ),
               # data download --------------------------------------------------
