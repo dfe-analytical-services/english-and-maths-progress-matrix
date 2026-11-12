@@ -82,7 +82,7 @@ ui <- function(input, output, session) {
       ),
 
       # Beta banner -------------------------------------------------------------
-      shinyGovstyle::banner(
+      shinyGovstyle::phase_banner(
         "beta banner",
         "Beta",
         "This dashboard is in beta phase and we are still reviewing performance and reliability."
