@@ -29,7 +29,7 @@
       "deps": [
         {
           "name": "stylecss",
-          "version": "0.3.0.9000",
+          "version": "0.3.0",
           "src": {
             "href": "shinyGovstyle/css"
           },
@@ -43,7 +43,7 @@
         },
         {
           "name": "width-overrides",
-          "version": "0.3.0.9000",
+          "version": "0.3.0",
           "src": {
             "href": "shinyGovstyle/css"
           },
@@ -57,7 +57,7 @@
         },
         {
           "name": "update_page_title",
-          "version": "0.3.0.9000",
+          "version": "0.3.0",
           "src": {
             "href": "shinyGovstyle/js"
           },
