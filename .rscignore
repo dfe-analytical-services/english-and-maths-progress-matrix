@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.RData*
+.Ruserdata
+README.html
+*_.new.png
+*unpublished*
+KT_function_breakdown.R
+data/archive/
+data/archive/EM_progress_201617.csv
+data/archive/EM_progress_201718.csv
+data/archive/EM_progress_201819.csv
+data/archive/EM_progress_201920.csv
+data/archive/EM_progress_202021.csv
+data/archive/EM_progress_202425_old.csv
